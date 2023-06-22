@@ -24,6 +24,9 @@ public class pageListingRepository {
     public List<Map<String,Object>> getpageListing(){
         return JdbcTemplate.queryForList("EXEC shows.spfetchEvents");
     }
+    public List<Map<String,Object>> approvalPending(){
+        return JdbcTemplate.queryForList("EXEC shows.approvalpending");
+    }
     public Map<String,Object> fetchUSer(int id){
         return JdbcTemplate.queryForMap("EXEC dbo.spfetchUser ?",id);
     }
@@ -33,6 +36,9 @@ public class pageListingRepository {
     public Map<String,Object> validateLogin(String name,String password){
         return JdbcTemplate.queryForMap("EXEC dbo.authenticateUser ?,?",name,password);
     }
+    public Map<String,Object> validateadmin(String email,String password){
+        return JdbcTemplate.queryForMap("EXEC dbo.adminauthenticate ?,?",email,password);
+    }
     public  Map<String,Object> validToken(Integer userid,String token){
 
       return  this.JdbcTemplate.queryForMap("EXEC dbo.spvalidToken ?,?",userid,token);
@@ -41,9 +47,18 @@ public class pageListingRepository {
     public void registerUSer(String name,Integer phoneno,String email,String password,Integer activeyn){
         this.JdbcTemplate.update("EXEC  dbo.spregisterUser ?,?,?,?,?",name,phoneno,email,password,activeyn);
     }
+    public void adminapprovalrejection(String eventname,Integer phoneno){
+        this.JdbcTemplate.update("EXEC  shows.adminApproval ?,?",eventname,phoneno);
+    }
+    public void addEvents(String eventname,String state,String date,String city,String timings,Integer prices,Integer categoryid,Integer noofseats,String aboutevents){
+        this.JdbcTemplate.update("EXEC  shows.spaddEvent ?,?,?,?,?,?,?,?,?",eventname,state,date,city,timings,prices,categoryid,noofseats,aboutevents);
+    }
     public void donation(Integer donationamount,Integer userid){
         this.JdbcTemplate.update("Exec booksmile.sp_donatingForEvent ?,?",donationamount,userid);
   }
+    public Map<String,Object> eventdetail(Integer eventid){
+      return  JdbcTemplate.queryForMap("Exec shows.event_detail ?",eventid);
+    }
 //    public List<Map<String,Object>> sendEmail(){
 //
 //        this.l1.addAll(this.JdbcTemplate.queryForList("EXEC dbo.spsenduserEmail"));

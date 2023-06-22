@@ -22,6 +22,11 @@ public class pageListingResource {
     private List<Map<String,Object>> getpageListing(){
         return pagelistingservice.getpageListing();
     }
+    @GetMapping("/approvalpending")
+    private List<Map<String,Object>> approvalPending(){
+        return pagelistingservice.approvalPending();
+    }
+
     @GetMapping("/user/{id}")
     private Map<String,Object> fetchUser(@PathVariable int id){
         return pagelistingservice.fetchUser(id);
@@ -35,6 +40,11 @@ public class pageListingResource {
         return pagelistingservice.validateLogin(userLogin);
 
     }
+    @PostMapping("/validateadmin")
+    public Map<String,Object> validateadmin(@RequestBody Map<String,Object> userLogin){
+        return pagelistingservice.validateadmin(userLogin);
+
+    }
     @PostMapping("/validToken")
     public  Map<String,Object> validToken(@RequestBody Map<String,Object> tokendata){
        return this.pagelistingservice.validToken(tokendata);
@@ -42,6 +52,14 @@ public class pageListingResource {
     @PostMapping("/register")
     public void registerUser(@RequestBody Map<String,Object> userData) {
          this.pagelistingservice.registerUser(userData);
+    }
+    @PostMapping("/adminapprovalrejection")
+    public void adminapprovalrejection(@RequestBody Map<String,Object> userData) {
+        this.pagelistingservice.adminapprovalrejection(userData);
+    }
+    @PostMapping("/addEvents")
+    public void addEvents(@RequestBody Map<String,Object> userData) {
+        this.pagelistingservice.addEvents(userData);
     }
 //    @PostMapping("/users/{id}")
 //    public void deleteUser(@RequestBody Map<String,Object> data(@PathVariable int id)) {
@@ -51,6 +69,11 @@ public class pageListingResource {
     public void donation(@RequestBody Map<String,Object> userDonate) {
         this.pagelistingservice.donation(userDonate);
     }
+    @GetMapping("/event-detail/{data}")
+    public Map<String ,Object> eventdetail(@PathVariable int data){
+       return this.pagelistingservice.eventdetail(data);
+    }
+
 //    @GetMapping("/email")
 //    @EventListener(ApplicationReadyEvent.class)
 //    public List<Map<String,Object>> sendEmail(){
